@@ -66,8 +66,17 @@ public class Picture {
     }
 
 
+    public void setStartingPositionX(int startingPositionX) {
+        this.startingPositionX = startingPositionX;
+    }
+
     public int getStartingPositionY() {
         return startingPositionY;
+    }
+
+
+    public void setStartingPositionY(int startingPositionY) {
+        this.startingPositionY = startingPositionY;
     }
 
 
