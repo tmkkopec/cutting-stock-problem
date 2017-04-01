@@ -16,7 +16,7 @@ gradle-app.setting
 
 #intellij files
 .idea/*
-
+out/*
 *.class
 
 # Mobile Tools for Java (J2ME)
