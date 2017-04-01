@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Image {
+public class Picture {
 
     private String path;
 
@@ -19,7 +19,7 @@ public class Image {
     private int startingPositionY;
 
 
-    public Image(String path){
+    public Picture(String path){
         this.path = path;
         try {
             initImage();
@@ -29,7 +29,7 @@ public class Image {
     }
 
 
-    public Image(File file){
+    public Picture(File file){
         this.path = file.getPath();
         try {
             initImage();

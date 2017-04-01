@@ -9,13 +9,13 @@ import java.util.stream.Collectors;
 
 public class ResourceManager {
 
-    public List<Image> getImagesFromResources() throws IOException, URISyntaxException {
-        return getImagesFromFolder(ResourceManager.class.getClassLoader().getResource("images").getPath());
+    public List<Picture> getPicturesFromResources() throws IOException, URISyntaxException {
+        return getPicturesFromFolder(ResourceManager.class.getClassLoader().getResource("images").getPath());
     }
 
-    public List<Image> getImagesFromFolder(String folderPath) throws IOException {
+    public List<Picture> getPicturesFromFolder(String folderPath) throws IOException {
         List<File> list = Arrays.asList(new File(folderPath).listFiles());
 
-        return list.stream().map(Image::new).collect(Collectors.toList());
+        return list.stream().map(Picture::new).collect(Collectors.toList());
     }
 }
