@@ -29,6 +29,16 @@ public class Image {
     }
 
 
+    public Image(File file){
+        this.path = file.getPath();
+        try {
+            initImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void initImage() throws IOException {
         BufferedImage bi = ImageIO.read(new File(path));
         width = bi.getWidth();
