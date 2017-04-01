@@ -1,0 +1,6 @@
+group 'operations-reseach'
+version '0.1'
+
+sourceCompatibility = 1.8
+
+apply plugin: 'java'
