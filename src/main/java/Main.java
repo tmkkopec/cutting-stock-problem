@@ -7,6 +7,13 @@ public class Main {
 
     /* TODO Delete this method
     private void sampleUsage(){
+        // supervisor sample test
+        try {
+            new Supervisor("application.properties");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         ResourceManager rm = new ResourceManager();
 
         try {
