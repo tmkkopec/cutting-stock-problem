@@ -1,11 +1,20 @@
+import data.Picture;
+import data.ResourceManager;
+import gui.Visualiser;
+import model.Supervisor;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.List;
+
 public class Main {
 
     public static void main(String []args){
-
+        new Main().sampleUsage();
     }
 
 
-    /* TODO Delete this method
+    // TODO Delete this method
     private void sampleUsage(){
         // supervisor sample test
         try {
@@ -43,5 +52,5 @@ public class Main {
             e.printStackTrace();
         }
     }
-    */
+
 }
