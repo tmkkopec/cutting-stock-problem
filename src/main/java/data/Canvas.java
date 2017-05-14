@@ -33,7 +33,12 @@ public class Canvas {
         int[] position = findPicturePosition(picture.getWidth(), picture.getHeight());
         picture.setStartingPositionX(position[0]);
         picture.setStartingPositionY(position[1]);
-        pictures.add(picture);
+        if(!(position[0] == 0 && position[1] == 0 && !pictures.isEmpty())){
+            pictures.add(picture);
+        }
+        else{
+            System.out.println("Picture "+picture.getPath()+" doesnt fit");
+        }
     }
 
     public List<Picture> getPictures(){
