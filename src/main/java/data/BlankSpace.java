@@ -8,25 +8,10 @@ public class BlankSpace {
     private int xEnd;
     private int yStart;
     private int yEnd;
-    private boolean downAvailable;
-    private boolean rightAvailable;
-    private BlankSpace leftSpace;
-    private BlankSpace upSpace;
+    private boolean available;
     private BlankSpace rightSpace;
     private BlankSpace downSpace;
 
-    public BlankSpace(int xStart, int xEnd, int yStart, int yEnd){
-        this.xStart = xStart;
-        this.xEnd = xEnd;
-        this.yStart = yStart;
-        this.yEnd = yEnd;
-        this.downAvailable = true;
-        this.rightAvailable = true;
-        this.leftSpace = null;
-        this.upSpace = null;
-        this.rightSpace = null;
-        this.downSpace = null;
-    }
     public int getxStart() {
         return xStart;
     }
@@ -59,36 +44,12 @@ public class BlankSpace {
         this.yEnd = yEnd;
     }
 
-    public boolean isDownAvailable() {
-        return downAvailable;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setDownAvailable(boolean downAvailable) {
-        this.downAvailable = downAvailable;
-    }
-
-    public boolean isRightAvailable() {
-        return rightAvailable;
-    }
-
-    public void setRightAvailable(boolean rightAvailable) {
-        this.rightAvailable = rightAvailable;
-    }
-
-    public BlankSpace getLeftSpace() {
-        return leftSpace;
-    }
-
-    public void setLeftSpace(BlankSpace leftSpace) {
-        this.leftSpace = leftSpace;
-    }
-
-    public BlankSpace getUpSpace() {
-        return upSpace;
-    }
-
-    public void setUpSpace(BlankSpace upSpace) {
-        this.upSpace = upSpace;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public BlankSpace getRightSpace() {
@@ -106,6 +67,17 @@ public class BlankSpace {
     public void setDownSpace(BlankSpace downSpace) {
         this.downSpace = downSpace;
     }
+
+    public BlankSpace(int xStart, int xEnd, int yStart, int yEnd){
+        this.xStart = xStart;
+        this.xEnd = xEnd;
+        this.yStart = yStart;
+        this.yEnd = yEnd;
+        this.available = true;
+        this.rightSpace = null;
+        this.downSpace = null;
+    }
+
 
     public int getWidth(){
         return xEnd-xStart+1;
