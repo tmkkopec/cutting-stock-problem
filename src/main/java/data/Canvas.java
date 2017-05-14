@@ -41,27 +41,32 @@ public class Canvas {
     }
 
     private int[] findPicturePosition(int width, int height){
+        BlankSpace currentSpace = spaceCols.get(0);
         for(int i = 0; i < cols; i++){ //going down
-            if(checkSpaceInCol(spaceCols.get(i),width,height)){
+            if(checkSpaceInCol(currentSpace,width,height)){
                 int[] position = new int[2];
                 position[0] = pictureX;
                 position[1] = pictureY;
                 fixGrid(width, height);
                 return position;
             }
+            currentSpace = currentSpace.getRightSpace();
         }
+        currentSpace = spaceRows.get(0);
         for(int i = 0; i < rows; i++){
-            if(checkSpaceInRow(spaceRows.get(i),width,height)){
+            if(checkSpaceInRow(currentSpace,width,height)){
                 int[] position = new int[2];
                 position[0] = pictureX;
                 position[1] = pictureY;
                 fixGrid(width, height);
                 return position;
             }
+            currentSpace = currentSpace.getDownSpace();
         }
-        //check right
-        //-----
-        int[] position = new int[0];
+        //TODO: Implement what happens when there is no space on canvas
+        int[] position = new int[2];
+        position[0] = 0;
+        position[1] = 0;
         return position;
     }
 

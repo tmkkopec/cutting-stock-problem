@@ -1,3 +1,4 @@
+import data.Canvas;
 import data.Picture;
 import data.ResourceManager;
 import gui.Visualiser;
@@ -24,28 +25,28 @@ public class Main {
         }
 
         ResourceManager rm = new ResourceManager();
-
+        Canvas canvas = new Canvas(400, 400);
         try {
             List<Picture> list = rm.getPicturesFromResources();
+            for(Picture picture: list) canvas.addPicture(picture);
+            //list.get(0).setStartingPositionX(20);
+            //list.get(0).setStartingPositionY(30);
 
-            list.get(0).setStartingPositionX(20);
-            list.get(0).setStartingPositionY(30);
+            //list.get(1).setStartingPositionX(100);
+            //list.get(1).setStartingPositionY(300);
 
-            list.get(1).setStartingPositionX(100);
-            list.get(1).setStartingPositionY(300);
-
-            Visualiser v = new Visualiser(list);
+            Visualiser v = new Visualiser(canvas.getPictures());
             v.visualise();
 
 
-            // Reuse
+//            // Reuse
             Thread.sleep(2000);
-
-            list.get(1).setStartingPositionX(200);
-            list.get(1).setStartingPositionY(200);
-            v.setPictures(list);
-
-            v.visualise();
+//
+//            list.get(1).setStartingPositionX(200);
+//            list.get(1).setStartingPositionY(200);
+//            v.setPictures(list);
+//
+//            v.visualise();
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
