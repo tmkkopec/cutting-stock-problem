@@ -11,7 +11,13 @@ import java.util.List;
 public class Main {
 
     public static void main(String []args){
-        new Main().sampleUsage();
+        //new Main().sampleUsage();
+        try {
+            Supervisor supervisor = new Supervisor("application.properties");
+            supervisor.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

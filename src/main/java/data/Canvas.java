@@ -7,6 +7,8 @@ import java.util.List;
  * Created by Kaz on 2017-05-13.
  */
 public class Canvas {
+    private int width;
+    private int height;
     private List<BlankSpace> spaceRows;
     private List<BlankSpace> spaceCols;
     private int rows;
@@ -15,8 +17,17 @@ public class Canvas {
     private int pictureY;
     private List<Picture> pictures;
     private BlankSpace startSpace;
+    private int canvasSquare;
+    private boolean allFit;
+
+    public boolean isAllFit() {
+        return allFit;
+    }
 
     public Canvas(int width, int height){
+        this.width = width;
+        this.height = height;
+        canvasSquare = width * height;
         spaceRows = new LinkedList<>();
         spaceCols = new LinkedList<>();
         pictures = new LinkedList<>();
@@ -27,6 +38,7 @@ public class Canvas {
         cols = 1;
         pictureX = 0;
         pictureY = 0;
+        allFit = true;
     }
 
     public void addPicture(Picture picture){
@@ -37,8 +49,15 @@ public class Canvas {
             pictures.add(picture);
         }
         else{
-            System.out.println("Picture "+picture.getPath()+" doesnt fit");
+           allFit = false;
+           // System.out.println("Picture "+picture.getPath()+" doesnt fit");
         }
+    }
+    //Use only after all the images have been put
+    public void updateSize(){
+        BlankSpace space = getSpace(rows -1, cols -1);
+        width = space.getxStart();
+        height = space.getxEnd();
     }
 
     public List<Picture> getPictures(){
@@ -196,4 +215,11 @@ public class Canvas {
         return checkDown(space.getDownSpace(),height - space.getHeight());
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }

@@ -21,6 +21,8 @@ public class SingleSwap extends SwapFunction {
     @Override
     // TODO implement
     public List<Picture> swap(List<Picture> currentSolution) {
-        return null;
+        Picture first = currentSolution.remove(0);
+        currentSolution.add(first);
+        return currentSolution;
     }
 }

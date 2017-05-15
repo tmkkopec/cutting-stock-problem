@@ -53,8 +53,11 @@ public class Supervisor {
         this.n2 = Integer.parseInt(props.getProperty("n2"));
         this.n1 = Integer.parseInt(props.getProperty("n1"));
         this.maxIterations = Integer.parseInt(props.getProperty("maxIterations"));
-        this.width = Double.parseDouble(props.getProperty("width"));
-        this.height = Double.parseDouble(props.getProperty("height"));
+
+        this.basicSolution = new ResourceManager().getPicturesFromResources();
+        calculateCanvasSize(basicSolution);
+//        this.width = Double.parseDouble(props.getProperty("width"));
+//        this.height = Double.parseDouble(props.getProperty("height"));
 
         // init fitness and swap functions
         Class<?> fitness = Class.forName("model.functions." + props.getProperty("fitnessFunction"));
@@ -64,11 +67,22 @@ public class Supervisor {
         this.randomSwapFunction = new RandomSwap(width, height, ngh);
 
         // inti rest params
-        this.basicSolution = new ResourceManager().getPicturesFromResources();
+
+
         this.beesPopulation = getEmptyBeesPopulation();
         initPopulation();
     }
 
+    private void calculateCanvasSize(List<Picture> pictures){
+        int square = 0;
+        for(Picture picture: pictures)square += picture.getHeight()*picture.getWidth();
+        square = (int)Math.sqrt(3*square);
+        int width = square/2;
+        int height = square/3;
+        this.width = (int)2*width;
+        this.height = (int)2*height;
+        //System.out.println("Width: "+this.width+" height: "+this.height);
+    }
     /**
      * NOT TESTED YET! NEED IMPLEMENTATIONS FROM model.functions PACKAGE
      */
@@ -90,6 +104,11 @@ public class Supervisor {
             // update beesPopulation with newly generated population
             beesPopulation = newPopulation;
         }
+        int i = 0;
+        //while(i<10){
+            if(!fitnessFunction.presentationEvaluation(beesPopulation.poll().getCurrentSolution())) System.out.println("Brak rozwiazan");
+
+       // }
     }
 
     private void sendToRandomSearch(int beesAmount, PriorityQueue<Bee> newPopulation) {
