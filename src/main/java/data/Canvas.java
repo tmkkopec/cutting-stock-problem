@@ -13,13 +13,25 @@ public class Canvas {
     private int cols;
     private int pictureX;
     private int pictureY;
+    private int emergencyX;
+    private int emergencyY;
+    private int emergencySpace;
+    private boolean emergencyRight;
+    private boolean emergencyDown;
     private List<Picture> pictures;
     private BlankSpace startSpace;
+    private int canvasXEnd;
+    private int canvasYEnd;
+    private int minSurplus;
+    private int pictureWidth;
+    private int pictureHeight;
 
     public Canvas(int width, int height){
         spaceRows = new LinkedList<>();
         spaceCols = new LinkedList<>();
         pictures = new LinkedList<>();
+        canvasXEnd = width -1;
+        canvasYEnd = height -1;
         BlankSpace firstSpace = new BlankSpace(0,width-1,0,height-1);
         spaceRows.add(firstSpace);
         spaceCols.add(firstSpace);
@@ -29,7 +41,17 @@ public class Canvas {
         pictureY = 0;
     }
 
+    private int getSurplus(int xEnd, int yEnd){
+        int surplus = 0;
+        if (xEnd > canvasXEnd) surplus += (xEnd - canvasXEnd) * (yEnd + 1);
+        if (yEnd > canvasYEnd) surplus += (yEnd - canvasYEnd) + (xEnd + 1);
+        if (xEnd > canvasXEnd && yEnd > canvasYEnd) surplus += (xEnd - canvasXEnd) * (yEnd - canvasYEnd);
+        return surplus;
+    }
     public void addPicture(Picture picture){
+        minSurplus = getSurplus(canvasXEnd + picture.getWidth(), canvasYEnd + picture.getHeight());
+        pictureWidth = picture.getWidth();
+        pictureHeight = picture.getHeight();
         int[] position = findPicturePosition(picture.getWidth(), picture.getHeight());
         picture.setStartingPositionX(position[0]);
         picture.setStartingPositionY(position[1]);
@@ -70,9 +92,17 @@ public class Canvas {
         }
         //TODO: Implement what happens when there is no space on canvas
         int[] position = new int[2];
-        position[0] = 0;
-        position[1] = 0;
+        position[0] = emergencyX;
+        position[1] = emergencyY;
+        fixAfterIncreasing();
         return position;
+    }
+
+    private void fixAfterIncreasing(){
+        //rows,cols,canvasEnd
+        int newXEnd = Math.max(canvasXEnd, emergencyX + pictureWidth - 1);
+        int newYEnd = Math.max(canvasYEnd, emergencyY + pictureHeight - 1);
+        BlankSpace cornerSpace = new BlankSpace(canvasXEnd)
     }
 
     private void fixGrid(int width, int height) {
@@ -163,10 +193,14 @@ public class Canvas {
     private boolean checkSpaceInRow(BlankSpace space, int width, int height){
         if(space == null) return false;
         else if(space.isAvailable()){
+            emergencyRight = false;
             startSpace = space;
             pictureX = space.getxStart();
             pictureY = space.getyStart();
-            if (checkRight(space, width)) return checkDown(space, height);
+            if (checkRight(space, width)) {
+                emergencyRight = true;
+                return checkDown(space, height);
+            }
         }
         return checkSpaceInRow(space.getRightSpace(),width,height);
     }
@@ -174,23 +208,47 @@ public class Canvas {
     private boolean checkSpaceInCol(BlankSpace space, int width, int height){
         if(space == null) return false;
         else if (space.isAvailable()){
+            emergencyDown = false;
             startSpace = space;
             pictureX = space.getxStart();
             pictureY = space.getyStart();
-            if (checkDown(space, height)) return checkRight(space, width);
+            if (checkDown(space, height)) {
+                emergencyDown = true;
+                return checkRight(space, width);
+            }
         }
         return checkSpaceInCol(space.getDownSpace(),width,height);
     }
 
     private boolean checkRight(BlankSpace space, int width) {
-        if(space == null) return false;
+        if(space == null) {
+            if(emergencyDown){
+                int surplus = getSurplus(pictureX+pictureWidth-1, pictureY+pictureHeight-1);
+                if (surplus <= minSurplus){
+                    minSurplus = surplus;
+                    emergencyX = pictureX;
+                    emergencyY = pictureY;
+                }
+            }
+            return false;
+        }
         if(!space.isAvailable()) return false;
         if(space.getWidth()>= width) return true;
         return checkRight(space.getRightSpace(),width - space.getWidth());
     }
 
     private boolean checkDown(BlankSpace space, int height) {
-        if(space == null) return false;
+        if(space == null) {
+            if(emergencyRight){
+                int surplus = getSurplus(pictureX+pictureWidth-1, pictureY+pictureHeight-1);
+                if (surplus <= minSurplus){
+                    minSurplus = surplus;
+                    emergencyX = pictureX;
+                    emergencyY = pictureY;
+                }
+            }
+            return false;
+        }
         if(!space.isAvailable()) return false;
         if(space.getHeight() >= height) return true;
         return checkDown(space.getDownSpace(),height - space.getHeight());

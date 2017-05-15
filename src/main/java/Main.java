@@ -6,7 +6,10 @@ import model.Supervisor;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
 
@@ -28,6 +31,7 @@ public class Main {
         Canvas canvas = new Canvas(400, 400);
         try {
             List<Picture> list = rm.getPicturesFromResources();
+            Collections.shuffle(list, new Random(System.nanoTime()));
             for(Picture picture: list) canvas.addPicture(picture);
             //list.get(0).setStartingPositionX(20);
             //list.get(0).setStartingPositionY(30);
