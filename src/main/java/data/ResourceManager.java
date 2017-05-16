@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,13 @@ public class ResourceManager {
     }
 
     public List<Picture> getPicturesFromFolder(String folderPath) throws IOException {
-        List<File> list = Arrays.asList(new File(folderPath).listFiles());
+        List<File> list = new LinkedList<>(Arrays.asList(new File(folderPath).listFiles()));
+
+        for(File f: list){
+            if(f.getPath().contains("Thumbs.db")) {
+                list.remove(f);
+            }
+        }
 
         return list.stream().map(Picture::new).collect(Collectors.toList());
     }
