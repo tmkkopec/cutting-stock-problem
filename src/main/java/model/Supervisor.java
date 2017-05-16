@@ -5,6 +5,7 @@ import data.Picture;
 import data.ResourceManager;
 import model.functions.*;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -30,10 +31,9 @@ public class Supervisor {
     private List<Picture> basicSolution;
 
 
-    public Supervisor(String propertiesFile) throws Exception {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+    public Supervisor(String pathToImages, String propertiesFile) throws Exception {
         Properties props = new Properties();
-        try (InputStream input = loader.getResourceAsStream(propertiesFile)) {
+        try (InputStream input = new FileInputStream(propertiesFile)){//loader.getResourceAsStream(propertiesFile)) {
             props.load(input);
         } catch (IOException e) {
             throw new IllegalArgumentException("Error loading properties file");
@@ -54,7 +54,7 @@ public class Supervisor {
         this.n1 = Integer.parseInt(props.getProperty("n1"));
         this.maxIterations = Integer.parseInt(props.getProperty("maxIterations"));
 
-        this.basicSolution = new ResourceManager().getPicturesFromResources();
+        this.basicSolution = new ResourceManager().getPicturesFromFolder(pathToImages);
         calculateCanvasSize(basicSolution);
 //        this.width = Double.parseDouble(props.getProperty("width"));
 //        this.height = Double.parseDouble(props.getProperty("height"));

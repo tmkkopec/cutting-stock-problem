@@ -4,28 +4,48 @@ import data.ResourceManager;
 import gui.Visualiser;
 import model.Supervisor;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static data.ResourceManager.getPathToImages;
+import static data.ResourceManager.getPathToProperties;
+
 public class Main {
 
+    public boolean cmd = false;
+
     public static void main(String []args){
-        //new Main().sampleUsage();
         try {
-            Supervisor supervisor = new Supervisor("application.properties");
-            supervisor.start();
+            Main main = new Main();
+            if(main.cmd){
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                System.out.println("Path to images: ");
+                String resources = br.readLine();
+                System.out.println("Path to application.properties: ");
+                String properties = br.readLine();
+                System.out.println(resources);
+                System.out.println(properties);
+                Supervisor supervisor = new Supervisor(resources, properties);
+                supervisor.start();
+
+            }
+            else{
+                Supervisor supervisor = new Supervisor(getPathToImages(), getPathToProperties());
+                supervisor.start();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
     // TODO Delete this method
     private void sampleUsage(){
         // supervisor sample test
         try {
-            new Supervisor("application.properties");
+            new Supervisor(getPathToImages(), "application.properties");
         } catch (Exception e) {
             e.printStackTrace();
         }

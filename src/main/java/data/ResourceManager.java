@@ -10,7 +10,15 @@ import java.util.stream.Collectors;
 public class ResourceManager {
 
     public List<Picture> getPicturesFromResources() throws IOException, URISyntaxException {
-        return getPicturesFromFolder(ResourceManager.class.getClassLoader().getResource("images").getPath());
+        return getPicturesFromFolder(getPathToImages());
+    }
+
+    public static String getPathToImages(){
+        return ResourceManager.class.getClassLoader().getResource("images").getPath();
+    }
+
+    public static String getPathToProperties(){
+        return ResourceManager.class.getClassLoader().getResource("application.properties").getPath();
     }
 
     public List<Picture> getPicturesFromFolder(String folderPath) throws IOException {
