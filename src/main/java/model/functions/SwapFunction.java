@@ -9,6 +9,19 @@ import java.util.List;
  */
 public abstract class SwapFunction {
     private double width;
+
+    public double getWidth() {
+        return width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public int getNgh() {
+        return ngh;
+    }
+
     private double height;
     private int ngh;
 
