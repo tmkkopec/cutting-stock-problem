@@ -45,8 +45,8 @@ public class StandardFitness extends FitnessFunction {
 //        Visualiser v = new Visualiser(canvas.getPictures());
 //        v.visualise();
         int fit = square - (canvas.getHeight() * canvas.getWidth());
-        System.out.println("Fitness: " + fit);
-        writer.println(counter + CSV_SEPARATOR + fit);
+        System.out.println("Fitness: " + -fit);
+        writer.println(counter + CSV_SEPARATOR + -fit);
         counter++;
         return square - (int)(canvas.getHeight()*canvas.getWidth());
     }
@@ -70,8 +70,8 @@ public class StandardFitness extends FitnessFunction {
         Visualiser v = new Visualiser(canvas.getPictures());
         v.visualise();
         int fit = square - (int)(canvas.getHeight()*canvas.getWidth());
-        System.out.println("Best fitness: "+ fit);
-        writer.println(counter + CSV_SEPARATOR + fit);
+        System.out.println("Best fitness: "+ -fit);
+        writer.println(counter + CSV_SEPARATOR + -fit);
         writer.close();
         return true;
     }
