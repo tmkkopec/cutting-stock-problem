@@ -15,12 +15,12 @@ import static data.ResourceManager.getPathToProperties;
 
 public class Main {
 
-    public boolean cmd = false;
+    public boolean cmd = true;
 
-    public static void main(String []args){
+    public static void main(String[] args) {
         try {
             Main main = new Main();
-            if(main.cmd){
+            if (main.cmd) {
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 System.out.println("Path to images: ");
                 String resources = br.readLine();
@@ -29,12 +29,17 @@ public class Main {
                 System.out.println(resources);
                 System.out.println(properties);
                 Supervisor supervisor = new Supervisor(resources, properties);
+                long start = System.nanoTime();
                 supervisor.start();
+                long end = System.nanoTime() - start;
+                System.out.println("Complete time: " + (((double)end - start))/(1000000000) + " s");
 
-            }
-            else{
+            } else {
                 Supervisor supervisor = new Supervisor(getPathToImages(), getPathToProperties());
+                long start = System.nanoTime();
                 supervisor.start();
+                long end = System.nanoTime();
+                System.out.println("Complete time: " + (((double)end - start))/(1000000000) + " s");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,7 +47,7 @@ public class Main {
     }
 
     // TODO Delete this method
-    private void sampleUsage(){
+    private void sampleUsage() {
         // supervisor sample test
         try {
             new Supervisor(getPathToImages(), "application.properties");
@@ -54,7 +59,7 @@ public class Main {
         Canvas canvas = new Canvas(400, 400);
         try {
             List<Picture> list = rm.getPicturesFromResources();
-            for(Picture picture: list) canvas.addPicture(picture);
+            for (Picture picture : list) canvas.addPicture(picture);
             //list.get(0).setStartingPositionX(20);
             //list.get(0).setStartingPositionY(30);
 

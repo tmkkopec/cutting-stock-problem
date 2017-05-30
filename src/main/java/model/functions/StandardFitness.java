@@ -7,6 +7,7 @@ import gui.Visualiser;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,6 +18,9 @@ public class StandardFitness extends FitnessFunction {
     private static int counter = 1;
     private PrintWriter writer;
     private String CSV_SEPARATOR = ";";
+
+    int bestFitness = -(Integer.MAX_VALUE - 2);
+    List<Picture> bestPictures = new LinkedList<>();
 
     public StandardFitness(Double width, Double height) throws FileNotFoundException, UnsupportedEncodingException {
         super(width, height);
@@ -46,6 +50,11 @@ public class StandardFitness extends FitnessFunction {
 //        v.visualise();
         int fit = square - (canvas.getHeight() * canvas.getWidth());
         System.out.println("Fitness: " + -fit);
+
+        if(bestFitness < fit && canvas.isAllFit()){
+            bestFitness = fit;
+            bestPictures = currentSolution;
+        }
         writer.println(counter + CSV_SEPARATOR + -fit);
         counter++;
         return square - (int)(canvas.getHeight()*canvas.getWidth());
@@ -54,7 +63,7 @@ public class StandardFitness extends FitnessFunction {
     public boolean presentationEvaluation(List<Picture> currentSolution){
         if(currentSolution == null) return false;
         Canvas canvas = new Canvas(getWidth().intValue(),getHeight().intValue());
-        for(Picture picture: currentSolution)
+        for(Picture picture: bestPictures)
             canvas.addPicture(picture);
         if(!canvas.isAllFit())
             return false;
@@ -70,7 +79,7 @@ public class StandardFitness extends FitnessFunction {
         Visualiser v = new Visualiser(canvas.getPictures());
         v.visualise();
         int fit = square - (int)(canvas.getHeight()*canvas.getWidth());
-        System.out.println("Best fitness: "+ -fit);
+        System.out.println("Best fitness: "+ - bestFitness);
         writer.println(counter + CSV_SEPARATOR + -fit);
         writer.close();
         return true;
